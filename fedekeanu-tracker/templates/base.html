@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Fedekeanu{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <header class="top"><a class="brand" href="/">FEDEKEANU<span>.</span></a><span class="tag">CYBERSECURITY LAB</span></header>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}<div class="notice">{% for message in messages %}{{ message }}{% endfor %}</div>{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+    <footer>Esperimento didattico · Dati raccolti solo dopo consenso esplicito</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Fedekeanu · Accesso admin{% endblock %}
+{% block content %}
+<section class="hero compact">
+  <div class="eyebrow">AREA RISERVATA</div><h1>Admin<br><em>access.</em></h1>
+  <form class="panel" method="post">
+    <label for="password">Password amministratore</label>
+    <input id="password" name="password" type="password" required autocomplete="current-password">
+    <button type="submit">Accedi <span>↗</span></button>
+  </form>
+</section>
+{% endblock %}

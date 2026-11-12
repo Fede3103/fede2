@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Fedekeanu · Test informativo{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="eyebrow">ESPERIMENTO DI PRIVACY · 01</div>
+  <h1>Un clic.<br><em>Un caso di studio.</em></h1>
+  <p class="lead">Questa pagina fa parte di una dimostrazione didattica sulla privacy online e sulle informazioni tecniche che un sito può ricevere.</p>
+  <div class="panel">
+    <h2>Informazioni tecniche raccolte dopo il consenso</h2>
+    <ol>
+      <li>Tipo di dispositivo (desktop, smartphone o tablet, stima dal browser).</li>
+      <li>Sistema operativo, se riconoscibile dal browser.</li>
+      <li>Browser e versione, se riconoscibili.</li>
+      <li>Lingua principale e lingue dichiarate dal browser.</li>
+      <li>Risoluzione dello schermo.</li>
+      <li>Dimensioni della finestra del browser.</li>
+      <li>Fuso orario dichiarato dal dispositivo.</li>
+      <li>Protocollo di connessione (HTTP o HTTPS).</li>
+      <li>Data e ora UTC dell'invio.</li>
+      <li>User-Agent, stringa tecnica inviata dal browser.</li>
+      <li><strong>Indirizzo IP pubblico del collegamento</strong>, riportato per ultimo.</li>
+    </ol>
+    <p class="small">Non vengono raccolti GPS, indirizzo civico, contatti, file, cronologia o posizione precisa. La stima geografica derivata da un IP, se svolta separatamente, è approssimativa e non identifica normalmente un'abitazione. Il provider di hosting potrebbe conservare propri log tecnici.</p>
+    <form id="consent-form" method="post" action="/consent">
+      <label class="consent"><input type="checkbox" name="consent" value="yes" required> Ho letto l'informativa e acconsento alla raccolta dei dati elencati per questo test didattico.</label>
+      <input type="hidden" name="device_type">
+      <input type="hidden" name="operating_system">
+      <input type="hidden" name="browser">
+      <input type="hidden" name="language">
+      <input type="hidden" name="languages">
+      <input type="hidden" name="screen_resolution">
+      <input type="hidden" name="viewport_size">
+      <input type="hidden" name="timezone">
+      <input type="hidden" name="protocol">
+      <button type="submit">Acconsento e partecipo <span>↗</span></button>
+    </form>
+  </div>
+  <p class="small muted">Se non vuoi partecipare, chiudi semplicemente questa pagina.</p>
+</section>
+<script>
+(() => {
+  const form = document.getElementById('consent-form');
+  form.addEventListener('submit', () => {
+    const ua = navigator.userAgent || '';
+    const set = (name, value) => form.elements[name].value = String(value || '').slice(0, 500);
+    let device = /iPad|Tablet/i.test(ua) ? 'Tablet' : (/Mobi|Android/i.test(ua) ? 'Smartphone' : 'Desktop');
+    let os = /Windows NT/i.test(ua) ? 'Windows' : (/Android/i.test(ua) ? 'Android' : (/iPhone|iPad|iPod/i.test(ua) ? 'iOS/iPadOS' : (/Mac OS X|Macintosh/i.test(ua) ? 'macOS' : (/Linux/i.test(ua) ? 'Linux' : 'Non identificato')));
+    let browser = /Edg\//i.test(ua) ? 'Microsoft Edge' : (/Firefox\//i.test(ua) ? 'Firefox' : (/Chrome\//i.test(ua) ? 'Chrome' : (/Safari\//i.test(ua) ? 'Safari' : 'Non identificato')));
+    set('device_type', device);
+    set('operating_system', os);
+    set('browser', browser);
+    set('language', navigator.language);
+    set('languages', (navigator.languages || []).join(', '));
+    set('screen_resolution', screen.width + ' × ' + screen.height);
+    set('viewport_size', window.innerWidth + ' × ' + window.innerHeight);
+    set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+    set('protocol', location.protocol.replace(':', '').toUpperCase());
+  });
+})();
+</script>
+{% endblock %}

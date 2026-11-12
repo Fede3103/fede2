@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Fedekeanu · Dashboard{% endblock %}
+{% block content %}
+<section class="dashhead">
+  <div><div class="eyebrow">PANNELLO PRIVATO</div><h1>Dashboard<span>.</span></h1><p class="lead">Dati inviati dopo il consenso esplicito.</p></div>
+  <form method="post" action="/admin/logout"><button class="ghost" type="submit">Esci</button></form>
+</section>
+<div class="stats"><div class="stat"><span>INVII TOTALI</span><strong>{{ count }}</strong></div><div class="stat"><span>RIGHE MOSTRATE</span><strong>{{ rows|length }}</strong></div></div>
+<div class="panel tablewrap">
+  <div class="tabletop"><h2>Registrazioni recenti</h2>
+  <form method="post" action="/admin/delete" onsubmit="return confirm('Eliminare definitivamente tutti i dati?')"><button class="danger" type="submit">Cancella tutti i dati</button></form></div>
+  <div class="scroll"><table><thead><tr><th>Data UTC</th><th>Dispositivo</th><th>Sistema operativo</th><th>Browser</th><th>Lingua</th><th>Lingue</th><th>Schermo</th><th>Finestra</th><th>Fuso orario</th><th>Protocollo</th><th>User-Agent</th><th>IP (ultimo)</th></tr></thead><tbody>
+  {% for row in rows %}<tr>
+    <td>{{ row.created_at }}</td><td>{{ row.device_type }}</td><td>{{ row.operating_system }}</td><td>{{ row.browser }}</td>
+    <td>{{ row.language }}</td><td>{{ row.languages }}</td><td>{{ row.screen_resolution }}</td><td>{{ row.viewport_size }}</td>
+    <td>{{ row.timezone }}</td><td>{{ row.protocol }}</td><td class="ua">{{ row.user_agent }}</td><td>{{ row.ip_address }}</td>
+  </tr>{% else %}<tr><td colspan="12">Nessun dato registrato.</td></tr>{% endfor %}
+  </tbody></table></div>
+</div>
+<p class="small muted">L'IP è un dato personale. Limita l'accesso, definisci un periodo di conservazione e cancella i dati quando il test è concluso.</p>
+{% endblock %}
